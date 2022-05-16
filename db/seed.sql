@@ -23,10 +23,20 @@ VALUE('Sales Associate', 40000, 1),
 ('Accountant', 100,000, 3),
 ('Finance Manager', 130,000, 3),
 ('Chief Legal Officer', 250,000, 4),
-('Legal Assitant', 60,000, 4),
-('Contracts Administrator', 90,000, 4),
-
-
-
+('Legal Assistant', 60,000, 4),
+('Contracts Administrator', 90,000, 4);
 
 -- Insert employee info
+
+INSERT INTO employee(first_name, last_name, role_id, manager_id)
+VALUE ('Jim', 'Halpert', 1, 2),
+('Michael', 'Scott', 2, NULL),
+('Dwigtht', 'Schrute', 3, 5),
+('Ryan', 'Howard', 4, 5),
+('Pam', 'Beesly', 5, NULL),
+('Andy', 'Bernard', 6, 8),
+('Kevin', 'Malone', 7, 8),
+('Angela', 'Martin', 8, NULL),
+('Stanley', 'Hudson', 9, NULL),
+('Toby','Flenderson', 10, 9),
+('Kelly', 'Kapoor', 11, 9);

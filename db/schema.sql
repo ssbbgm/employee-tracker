@@ -10,7 +10,7 @@ USE company_db;
 CREATE TABLE department(
    id INT AUTO_INCREMENT,
    name VARCHAR(30) NOT NULL,
-   PRIMARY KEY (id)
+   PRIMARY KEY (id);
 );
 
 -- Creating the role table
@@ -20,7 +20,7 @@ CREATE TABLE role(
    salary DECIMAL(7,2),
    department_id INT,
    PRIMARY KEY (id),
-   FOREIGN KEY (department_id) REFERENCES department(id)
+   FOREIGN KEY (department_id) REFERENCES department(id) ON DELETE CASCADE;
 );
 
 -- Creating the employee table
@@ -31,6 +31,6 @@ CREATE TABLE employee(
    role_id INT,
    manager_id INT,
    PRIMARY KEY(id),
-   FOREIGN KEY (role_id) REFERENCES role(id),
-   FOREIGN KEY (manager_id) REFERENCES employee(id)
+   FOREIGN KEY (role_id) REFERENCES role(id) ON DELETE CASCADE,
+   FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE CASCADE;
 );
