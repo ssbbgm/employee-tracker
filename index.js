@@ -37,12 +37,76 @@ const startMenu = () => {
       choices: [
         "View all employees",
         "View all employees by role",
-        "View all employees by department",
+        "View all departments",
         "View all employees by manager",
         "Add employee",
         "Add role",
         "Add department",
         "Update employee role",
+        "Exit",
       ]
     })
+    .then((answer) => {
+        // Switch case depending on user option
+        switch (answer.menu) {
+
+          case "View all departments":
+                viewDepts();
+                break;
+
+          case "View all roles":
+                viewRoles();
+                break;
+
+            case "View all employees":
+                viewEmployees();
+                break;          
+                
+            case "Add department":
+                addDept();
+                break;
+
+            case "Add role":
+                addRole();
+                break;
+
+            case "Add employee":
+                addEmployee();
+                break;
+
+            case "Update employee role":
+                updateEmpRole();
+                break;
+
+            case "Exit":
+                connection.end();
+                break;
+            }
+     });
+}//end of Start Menu function
+
+
+const viewDepts = () => {
+  let query = `SELECT * FROM department`;
+  connection.query(query, function (err, res) {
+    console.table(res);
+    startMenu();
+  });
 }
+
+const viewRoles = () => {
+  let query = `SELECT * FROM role`;
+  connection.query(query, function (err, rows) {
+    console.table(rows);
+    startMenu();
+  });
+}
+
+const viewEmployees = () => {
+    let query = `SELECT employee.id, employee.first_name, employee.last_name, role.title, employee.manager_id, department.name AS department, role.salary FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department on role.department_id = department.id`;
+    connection.query(query, function (err, rows) {
+      console.table(rows);
+      startMenu();
+    });
+}
+
