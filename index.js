@@ -129,11 +129,111 @@ const addDept = () => {
         if (err) {
           throw err;
         } else {
-        console.log(`${res.newDept} has been added!`)
+        console.log(`\n${res.newDept} has been added!\n`);
         viewDepts();
         startMenu();
         }
-      });
+      })
     });
 }
 
+// const addRole = () => {
+//   inquirer
+//     .prompt({
+//       type: "input",
+//       message: "Enter the role's title",
+//       name: "title",
+//        validate: function (title) {
+//         if (title.length <= 1) {
+//           return console.log("Please provide a title for the role!");
+//         }
+//         return true;
+//       },
+//       type: "number",
+//       message: "Enter the role's annual salary",
+//       name: "salary",
+//        validate: function (salary) {
+//         if (salary <= 10000) {
+//             return console.log("Please provide a valid salary amount!");
+//         }
+//         return true;
+//       },
+//       type: "number",
+//       message: "Enter the role's department ID",
+//       name: "id",
+//        validate: function (id) {
+//         if (id <= 0) {
+//           return console.log("Please provide a department id for the role!");
+//         }
+//         return true;
+//       }
+//     })
+//     .then(function (res) {
+//       const title = res.title;
+//       const salary = res.salary;
+//       const departmentID = res.id;
+//       const query = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${departmentID}")`;
+//       connection.query(query, function (err, rows) {
+//         if (err) {
+//           throw err;
+//         }
+//         console.table(rows);
+//         startMenu();
+//       });
+//     });
+// }
+
+const addRole = () => { 
+  connection.query("SELECT role.title AS Title, role.salary AS Salary FROM role",   function(err, res) {
+    inquirer
+        .prompt([
+          {
+          type: "input",
+          message: "Enter the role's title",
+          name: "title",
+           validate: function (title) {
+            if (title.length <= 1) {
+              return console.log("Please provide a title for the role!");
+            }
+            return true;
+            }
+          },
+          {
+          type: "input",
+          message: "Enter the role's annual salary",
+          name: "salary",
+           validate: function (salary) {
+            if (salary <= 10000) {
+                return console.log("Please provide a valid salary amount!");
+            }
+            return true;
+          }
+          },
+          {
+          type: "number",
+          message: "Enter the role's department ID",
+          name: "id",
+           validate: function (id) {
+            if (id <= 0) {
+              return console.log("Please provide a department id for the role!");
+            }
+            return true;
+            }
+          }
+        ])
+      })
+    connection.promise().query(`INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`)
+          .then(function(res) {
+            `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`,
+            {
+              title: res.title,
+              salary: res.salary,
+              id: res.id
+            },
+            function(err, row) {
+                if (err) throw err
+                console.table(row);
+                startMenu();
+            }
+          })
+        }
