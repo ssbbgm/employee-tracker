@@ -129,8 +129,9 @@ const addDept = () => {
         if (err) {
           throw err;
         } else {
-        console.table(rows);
-        mainMenu();
+        console.log(`${res.newDept} has been added!`)
+        viewDepts();
+        startMenu();
         }
       });
     });
