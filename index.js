@@ -88,8 +88,8 @@ const startMenu = () => {
 
 const viewDepts = () => {
   let query = `SELECT * FROM department`;
-  connection.query(query, function (err, res) {
-    console.table(res);
+  connection.query(query, function (err, rows) {
+    console.table(rows);
     startMenu();
   });
 }
@@ -107,6 +107,32 @@ const viewEmployees = () => {
     connection.query(query, function (err, rows) {
       console.table(rows);
       startMenu();
+    });
+}
+
+const addDept = () => {
+  inquirer
+    .prompt({
+      type: "input",
+      message: "Enter the name of the new department",
+      name: "newDept",
+       validate: function (newDept) {
+        if (newDept.length <= 1) {
+            return console.log("Please provide a department name!");
+        }
+        return true;
+      }
+    })
+    .then(function (res) {
+      const query = `INSERT INTO department (name) VALUE ("${res.newDept}")`;
+      connection.query(query, function (err, rows) {
+        if (err) {
+          throw err;
+        } else {
+        console.table(rows);
+        mainMenu();
+        }
+      });
     });
 }
 
