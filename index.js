@@ -160,7 +160,8 @@ const addRole = () => {
         }
         return true;
       }
-    },{
+    },
+    {
       type: "number",
       message: "Enter the role's department ID",
       name: "id",
