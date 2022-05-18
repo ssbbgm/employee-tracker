@@ -36,9 +36,8 @@ const startMenu = () => {
       message: "Welcome to the menu!",
       choices: [
         "View all employees",
-        "View all employees by role",
+        "View all roles",
         "View all departments",
-        "View all employees by manager",
         "Add employee",
         "Add role",
         "Add department",
