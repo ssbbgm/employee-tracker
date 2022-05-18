@@ -88,24 +88,24 @@ const startMenu = () => {
 
 const viewDepts = () => {
   let query = `SELECT * FROM department`;
-  connection.query(query, function (err, rows) {
-    console.table(rows);
+  connection.query(query, function (err, res) {
+    console.table(res);
     startMenu();
   });
 }
 
 const viewRoles = () => {
   let query = `SELECT * FROM role`;
-  connection.query(query, function (err, rows) {
-    console.table(rows);
+  connection.query(query, function (err, res) {
+    console.table(res);
     startMenu();
   });
 }
 
 const viewEmployees = () => {
     let query = `SELECT employee.id, employee.first_name, employee.last_name, role.title, employee.manager_id, department.name AS department, role.salary FROM employee LEFT JOIN role ON employee.role_id = role.id LEFT JOIN department on role.department_id = department.id`;
-    connection.query(query, function (err, rows) {
-      console.table(rows);
+    connection.query(query, function (err, res) {
+      console.table(res);
       startMenu();
     });
 }
@@ -125,13 +125,12 @@ const addDept = () => {
     })
     .then(function (res) {
       const query = `INSERT INTO department (name) VALUE ("${res.newDept}")`;
-      connection.query(query, function (err, rows) {
+      connection.query(query, function (err, res) {
         if (err) {
           throw err;
         } else {
         console.log(`\n${res.newDept} has been added!\n`);
         viewDepts();
-        startMenu();
         }
       })
     });
@@ -177,12 +176,11 @@ const addRole = () => {
       const salary = res.salary;
       const departmentID = res.id;
       const query = `INSERT INTO role (title, salary, department_id) VALUES ("${title}", "${salary}", "${departmentID}")`;
-      connection.query(query, function (err, rows) {
+      connection.query(query, function (err) {
         if (err) {
           throw err;
         }
         viewDepts()
-        startMenu();
       });
     });
 }
@@ -207,7 +205,7 @@ const addEmployee = () => {
       name: "last_name",
        validate: function (last_name) {
         if (last_name.length <= 1) {
-            return console.log("Please providethe individual's last name!");
+            return console.log("Please provide the individual's last name!");
         }
         return true;
       }
@@ -240,12 +238,70 @@ const addEmployee = () => {
       const roleID = res.roleID;
       const managerID = res.managerID;
       const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${firstName}", "${lastName}","${roleID}", "${managerID}")`;
-      connection.query(query, function (err, rows) {
+      connection.query(query, function (err) {
         if (err) {
           throw err;
         }
         viewEmployees()
-        startMenu();
       });
     });
+}
+
+const updateEmpRole = () => {
+  //get all the employee list 
+  connection.query("SELECT * FROM EMPLOYEE", (err, res) => {
+    if (err) throw err;
+    const employeeChoice = [];
+    res.forEach(({ first_name, last_name, id }) => {
+      employeeChoice.push({
+        name: first_name + " " + last_name,
+        value: id
+      });
+    });
+    
+    //get all the role list to make choice of employee's role
+    connection.query("SELECT * FROM ROLE", (err, res) => {
+      if (err) throw err;
+      const roleChoice = [];
+      res.forEach(({ title, id }) => {
+        roleChoice.push({
+          name: title,
+          value: id
+          });
+        });
+     
+      let questions = [
+        {
+          type: "list",
+          name: "id",
+          choices: employeeChoice,
+          message: "Which role do you want to update?"
+        },
+        {
+          type: "list",
+          name: "role_id",
+          choices: roleChoice,
+          message: "What is the employee's new role?"
+        }
+      ]
+  
+      inquirer.prompt(questions)
+        .then(res => {
+          const query = `UPDATE EMPLOYEE SET ? WHERE ?? = ?;`;
+          connection.query(query, [
+            {role_id: res.role_id},
+            "id",
+            res.id
+          ], (err, res) => {
+            if (err) throw err;
+            
+            console.log("Successfully updated employee's role!");
+            viewEmployees();
+          });
+        })
+        .catch(err => {
+          console.error(err);
+        });
+      })
+  });
 }
