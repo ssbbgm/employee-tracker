@@ -22,15 +22,15 @@ VALUE('Sales Associate', 40000, 1),
 
 -- Insert employee info
 
-INSERT INTO employee(first_name, last_name, role_id, manager_id)
-VALUE ('Jim', 'Halpert', 1, 2),
-('Michael', 'Scott', 2, NULL),
-('Dwigtht', 'Schrute', 3, 5),
-('Ryan', 'Howard', 4, 5),
-('Pam', 'Beesly', 5, NULL),
-('Andy', 'Bernard', 6, 8),
-('Kevin', 'Malone', 7, 8),
-('Angela', 'Martin', 8, NULL),
-('Stanley', 'Hudson', 9, NULL),
-('Toby','Flenderson', 10, 9),
-('Kelly', 'Kapoor', 11, 9);
+INSERT INTO employee(id, first_name, last_name, role_id, manager_id)
+VALUE (1, 'Jim', 'Halpert', 1, 2),
+(2, 'Michael', 'Scott', 2, NULL),
+(3, 'Dwigtht', 'Schrute', 3, 5),
+(4, 'Ryan', 'Howard', 4, 5),
+(5, 'Pam', 'Beesly', 5, NULL),
+(6, 'Andy', 'Bernard', 6, 8),
+(7, 'Kevin', 'Malone', 7, 8),
+(8, 'Angela', 'Martin', 8, NULL),
+(9, 'Stanley', 'Hudson', 9, NULL),
+(10, 'Toby','Flenderson', 10, 9),
+(11, 'Kelly', 'Kapoor', 11, 9);

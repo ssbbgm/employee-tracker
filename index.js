@@ -179,7 +179,7 @@ const addRole = () => {
         if (err) {
           throw err;
         }
-        viewDepts()
+        viewRoles()
       });
     });
 }
@@ -188,6 +188,17 @@ const addRole = () => {
 const addEmployee = () => {
   inquirer
     .prompt([{
+      type: "number",
+      message: "Enter the employee's ID ",
+      name: "id",
+       validate: function (id) {
+        if (id <= 0) {
+          return console.log("Please provide an id number for the employee!");
+        }
+        return true;
+      }
+    },
+    {
       type: "input",
       message: "Enter the employee's first name",
       name: "first_name",
@@ -232,11 +243,12 @@ const addEmployee = () => {
       }
     }])
     .then(function (res) {
+      const id = res.id;
       const firstName = res.first_name;
       const lastName = res.last_name;
       const roleID = res.roleID;
       const managerID = res.managerID;
-      const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${firstName}", "${lastName}","${roleID}", "${managerID}")`;
+      const query = `INSERT INTO employee (id, first_name, last_name, role_id, manager_id) VALUES ("${id}", "${firstName}", "${lastName}","${roleID}", "${managerID}")`;
       connection.query(query, function (err) {
         if (err) {
           throw err;
