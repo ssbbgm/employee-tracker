@@ -181,9 +181,71 @@ const addRole = () => {
         if (err) {
           throw err;
         }
-        console.table(rows);
+        viewDepts()
         startMenu();
       });
     });
 }
 
+
+const addEmployee = () => {
+  inquirer
+    .prompt([{
+      type: "input",
+      message: "Enter the employee's first name",
+      name: "first_name",
+       validate: function (first_name) {
+        if (first_name.length <= 1) {
+          return console.log("Please provide the individual's first name!");
+        }
+        return true;
+      }
+    },
+    {
+      type: "input",
+      message: "Enter the employee's last name",
+      name: "last_name",
+       validate: function (last_name) {
+        if (last_name.length <= 1) {
+            return console.log("Please providethe individual's last name!");
+        }
+        return true;
+      }
+    },
+    {
+      type: "input",
+      message: "Enter the employee's role ID",
+      name: "roleID",
+       validate: function (roleID) {
+        if (roleID.length <= 0) {
+            return console.log("Please provide the individual's role ID!");
+        }
+        return true;
+      }
+    },
+    {
+      type: "number",
+      message: "Enter the employee's manager's ID ",
+      name: "managerID",
+       validate: function (managerID) {
+        if (managerID <= 0) {
+          return console.log("Please provide a manager id for the role!");
+        }
+        return true;
+      }
+    }])
+    .then(function (res) {
+      const firstName = res.first_name;
+      const lastName = res.last_name;
+      const roleID = res.roleID;
+      const managerID = res.managerID;
+      const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${firstName}", "${lastName}","${roleID}", "${managerID}")`;
+      connection.query(query, function (err, rows) {
+        if (err) {
+          throw err;
+        }
+        viewEmployees()
+        startMenu();
+      });
+    });
+}
