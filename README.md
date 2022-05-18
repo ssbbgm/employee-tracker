@@ -27,7 +27,10 @@ Please use npm install and node index to use this project.
 To be used as a Content Management System (CMS) for a business.
 
 ## Visuals
-![This is a screenshot/demo of the project.](Insert Picture or Link Info Here)
+
+Please click on the picture below to be taken to the video demo of the project.
+
+[![This is a screenshot/demo of the project.](./images/EmployeeTracker.png)](https://youtu.be/dOiPTjUfEbA)
 
 ## Tests
 
